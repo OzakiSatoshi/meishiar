@@ -32,7 +32,7 @@ AFRAME.registerComponent("hide-on-hit-test-start", {
         this.addEventListener(
           "ar-hit-test-start",
           function() {
-            message.innerHTML = `平面を探しています。`;
+            message.innerHTML = `Scanning environment, finding surface.`;
           },
           { once: true }
         );
@@ -41,7 +41,7 @@ AFRAME.registerComponent("hide-on-hit-test-start", {
         this.addEventListener(
           "ar-hit-test-achieved",
           function() {
-            message.innerHTML = `配置する場所を選択し、<br />画面をタップしてください。`;
+            message.innerHTML = `Select the location to place<br />By tapping on the screen or selecting with your controller.`;
           },
           { once: true }
         );
