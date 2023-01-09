@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>20</title>
+    <title>21</title>
     <meta name="description" content="Hello, WebVR! • A-Frame">
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     
@@ -49,6 +49,8 @@
     </script>
   </head>
   <body>
+    <a-gltf-model id="myModel" src="ozaki.glb"></a-gltf-model>
+
     <a-scene webxr="optionalFeatures: hit-test, dom-overlay; overlayElement:#overlay;">
 <!--       <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" shadow></a-box>
       <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E" shadow></a-sphere>
@@ -69,14 +71,19 @@
       var scene = document.querySelector("a-scene");
       var hitTest = document.querySelector("#hitTest");
       var button = document.querySelector("#button");
+      const myModelElement = document.getElementById("myModel");
+
+    //   button.addEventListener("click", function() {
+    //     let box = document.createElement("a-box");
+    //     box.setAttribute("color", "cyan" );
+    //     box.setAttribute("position", new THREE.Vector3(0, 0.05, 0).add(hitTest.object3D.position));
+    //     box.setAttribute("rotation", hitTest.getAttribute("rotation"));
+    //     box.setAttribute("scale", "0.1 0.1 0.1");
+    //     scene.appendChild(box);
 
       button.addEventListener("click", function() {
-        let box = document.createElement("a-box");
-        box.setAttribute("color", "cyan" );
-        box.setAttribute("position", new THREE.Vector3(0, 0.05, 0).add(hitTest.object3D.position));
-        box.setAttribute("rotation", hitTest.getAttribute("rotation"));
-        box.setAttribute("scale", "0.1 0.1 0.1");
-        scene.appendChild(box);
+        const glbFileUrl = myModelElement.getAttribute("src");
+        scene.appendChild(glbFileUrl);
       });
     </script>
     
