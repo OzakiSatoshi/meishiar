@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>11</title>
+  <title>12</title>
   <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
 </head>
 
@@ -16,6 +16,27 @@
     <a-assets>
       <a-asset-item id="my-model" src="ozaki.glb"></a-asset-item>
     </a-assets>
+
+    <!-- 平面を認識するためのエンティティを追加します -->
+    <a-marker type="pattern" url="path/to/marker.patt">
+      <!-- 平面を認識したときに実行するスクリプトを追加します -->
+      <a-script>
+        <script>
+          // アニメーションを開始するための関数を定義します
+          function startAnimation() {
+            // gltf-modelエンティティを取得します
+            const model = document.querySelector("a-entity[gltf-model]");
+            // animation-mixerコンポーネントを取得します
+            const mixer = model.components["animation-mixer"];
+            // アニメーションを開始します
+            mixer.play("my-animation");
+          }
+
+          // 平面を認識したときに、アニメーションを開始する関数を実行します
+          document.querySelector("a-marker").addEventListener("markerFound", startAnimation);
+        </script>
+      </a-script>
+    </a-marker>
   </a-scene>
 </body>
 
