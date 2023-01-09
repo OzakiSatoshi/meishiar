@@ -3,13 +3,14 @@
 
 <head>
   <meta charset="utf-8">
-  <title>16</title>
-  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <title>17</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
 
 <body>
-  <a-scene embedded arjs vr-mode-ui="enabled: false">
+  <a-scene embedded arjs vr-mode-ui="enabled: false" webxr = "optionalFeatures: hit-test;"  ar-hit-test = "target:#myobject;">
+    <a-entity id = "myobject"> </a-entity>
     <!-- ここに、glbオブジェクトを表示するエンティティを追加します -->
     <a-entity gltf-model="#my-model" animation-mixer scale="0.2 0.2 0.2" position="0 0 -2"></a-entity>
 
