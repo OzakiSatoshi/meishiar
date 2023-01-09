@@ -1,7 +1,7 @@
 <html>
 
 <head>
-　<title>27</title>
+　<title>28</title>
   <script>
     // WebXR requires https: to work so ensure redirected if needed.
     if (location.hostname !== 'localhost' && window.location.protocol === 'http:') window.location.protocol = 'https:';
@@ -54,7 +54,7 @@
 		gltf-model="dracoDecoderPath: https://cdn.jsdelivr.net/npm/three@0.129.0/examples/js/libs/draco/gltf/;"
         ar-cursor raycaster="objects: #my-objects *"
 	>
-    <a-sound id="my_voice" src="#voice" autoplay="true" position="0 0 0" loop="true"></a-sound>
+    <a-sound id="my_voice" src="#voice" autoplay="false" position="0 0 0" loop="true" volume="3"></a-sound>
     <a-assets>
       <!-- <a-asset-item id="spino" src="https://rawcdn.githack.com/krlosflip22/aframe-ar-sample/c91a7a9dd8b1428bc8e68bc1b5d8641d7241fd1b/spinosaurus.glb"></a-asset-item> -->
       <a-asset-item id="ozaki" src="ozaki.glb"></a-asset-item>
