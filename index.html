@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2</title>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <!-- <a href="intent://arvr.google.com/scene-viewer/1.0?file=https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF/Avocado.gltf#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;">Avocado</a> -->
-    <!-- <a href="intent://arvr.google.com/scene-viewer/1.0?file=https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF/Avocado.gltf&mode=ar_only#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;">Avocado</a>; -->
-</head>
-<body>
-    <model-viewer ar
-              ar-modes="scene-viewer webxr quick-look"
-              alt="ozaki"
-              src="ozaki.glb"
-              sound="voice.mp3"
-              title="株式会社Qukuri"></model-viewer>
-</body>
+  <head>
+    <title>3</title>
+    <script src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
+    <style>
+      model-viewer {
+        width: 50%;
+        height: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <model-viewer
+      src="ozaki.glb"
+      sound="voice.mp3"
+      camera-orbit="180deg 75deg 4m"
+      alt="A 3D model of a chair"
+      auto-rotate
+      auto-rotate-delay="0"
+    >
+    </model-viewer>
+  </body>
 </html>
