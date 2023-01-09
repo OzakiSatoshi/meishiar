@@ -3,14 +3,19 @@
 
 <head>
   <meta charset="utf-8">
-  <title>17</title>
+  <title>18</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
 
 <body>
-  <a-scene embedded arjs vr-mode-ui="enabled: false" webxr = "optionalFeatures: hit-test;"  ar-hit-test = "target:#myobject;">
-    <a-entity id = "myobject"> </a-entity>
+    <a-scene webxr="optionalFeatures: hit-test, dom-overlay; overlayElement:#overlay;">
+
+    <!-- hit-testを反映するa-entityオブジェクトを作成し、その子要素としてカーソルを表現するa-circleを追加します。 -->
+    <a-entity id="hitTest" ar-hit-test>
+        <a-circle scale="0.1 0.1 0.1" rotation="-90 0 0"></a-circle>
+    </a-entity>
+
     <!-- ここに、glbオブジェクトを表示するエンティティを追加します -->
     <a-entity gltf-model="#my-model" animation-mixer scale="0.2 0.2 0.2" position="0 0 -2"></a-entity>
 
@@ -19,27 +24,64 @@
       <a-asset-item id="my-model" src="ozaki.glb"></a-asset-item>
     </a-assets>
 
-    <!-- 平面を認識するためのエンティティを追加します -->
-    <a-marker type="pattern" url="path/to/marker.patt">
-      <!-- 平面を認識したときに実行するスクリプトを追加します -->
-      <a-script>
-        <script>
-          // アニメーションを開始するための関数を定義します
-          function startAnimation() {
-            // gltf-modelエンティティを取得します
-            const model = document.querySelector("a-entity[gltf-model]");
-            // animation-mixerコンポーネントを取得します
-            const mixer = model.components["animation-mixer"];
-            // アニメーションを開始します
-            mixer.play("my-animation");
-          }
+    <div id="overlay">
+        <input id="button" type="button" style="position:absolute; bottom: 20px; left: 20px; width:150px; height: 50px; z-index:100;" value="ボタン"> 
+    </div>
 
-          // 平面を認識したときに、アニメーションを開始する関数を実行します
-          document.querySelector("a-marker").addEventListener("markerFound", startAnimation);
-        </script>
-      </a-script>
-    </a-marker>
+    <script>
+        AFRAME.registerComponent("ar-hit-test", {
+            init: function() {
+               // session start
+               this.el.sceneEl.renderer.xr.addEventListener("sessionstart", async () => {
+                  if (this.el.sceneEl.is("ar-mode")) {
+                     this.renderer = this.el.sceneEl.renderer;
+                     let session = this.renderer.xr.getSession();
+                     let viewerSpace = await session.requestReferenceSpace("viewer");
+                     this.xrHitTestSource = await session.requestHitTestSource({
+                        space: viewerSpace
+                     });
+                  }
+               });
+    
+               // session end
+               this.el.sceneEl.renderer.xr.addEventListener("sessionend", async () => {
+                  this.xrHitTestSource = null;
+               });
+            },
+            tick: function() {
+    
+               const frame = this.el.sceneEl.frame;
+               if (!frame) return;
+    
+               // hit-test in real world
+               const xrHitTestSource = this.xrHitTestSource;
+               if (xrHitTestSource) {
+                  const refSpace = this.renderer.xr.getReferenceSpace();
+                  const hitTestResults = frame.getHitTestResults(xrHitTestSource);
+                  if (hitTestResults.length > 0) {
+                     const pose = hitTestResults[0].getPose(refSpace);
+                     this.el.setAttribute("position", pose.transform.position);
+                     this.el.object3D.quaternion.copy(pose.transform.orientation);
+                  }
+               }
+            }
+         });
+    </script>
+
+    <script>
+        var scene = document.querySelector("a-scene");
+        var hitTest = document.querySelector("#hitTest");
+        var button = document.querySelector("#button");
+
+        button.addEventListener("click", function() {
+            let box = document.createElement("a-box");
+            box.setAttribute("color", "cyan" );
+            box.setAttribute("position", new THREE.Vector3(0, 0.05, 0).add(hitTest.object3D.position));
+            box.setAttribute("rotation", hitTest.getAttribute("rotation"));
+            box.setAttribute("scale", "0.1 0.1 0.1");
+            scene.appendChild(box);
+        });
+    </script>
   </a-scene>
 </body>
-
 </html>
